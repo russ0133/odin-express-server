@@ -21,11 +21,19 @@ const main = async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
+  app.delete("/api/person/:id", async (req, res) => {
+    console.log("req.params.id", req.params.id);
+    await em.nativeDelete(Person, { id: req.params.id });
+    res.send(req.params.id);
+  });
+
   app.get("/api/person", async (req, res) => {
     const persons = await em.find(Person, {});
     console.log(persons);
     res.send(persons);
   });
+
+  app.put("/api/person/:id", async (req, res) => {});
 
   app.post("/api/person", async (req, res) => {
     const data = req.body;
